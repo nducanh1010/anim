@@ -16,7 +16,7 @@ export default function Hello() {
       "Sawadee",
       "Привет",
       "こんにちは",
-      "¡Hola",
+      "¡Hola"
     ];
 
     const tl = gsap.timeline();
@@ -30,14 +30,14 @@ export default function Hello() {
       // Optional callback for 'forwards' behavior to retain the final state
       onComplete: () => {
         gsap.set(".hello__svg", { strokeDashoffset: 0 });
-      },
+      }
     });
     tl.to(".hello__svg", {
       opacity: 0,
-      duration: 0.2,
+      duration: 0.2
     });
     tl.to(".hello__svg", {
-      display: "none",
+      display: "none"
     });
     texts.forEach((text) => {
       tl.to(
@@ -46,17 +46,17 @@ export default function Hello() {
           duration: 0.2,
           onStart: () => {
             setCurrentText(text);
-          },
+          }
         }
       );
     });
     tl.to(boxRef.current, {
-      duration: 1,
+      duration: 0.8,
       zIndex: 99,
       backgroundColor: "black",
       // change background color to black
       y: "-100vh", // move the box up to the top of the screen (out of the view)
-      ease: "power2.inOut", // easing function
+      ease: "power2.inOut" // easing function
     });
   }, []);
 
@@ -77,7 +77,7 @@ export default function Hello() {
               stroke: "#fff",
               strokeLinecap: "round",
               strokeMiterlimit: 10,
-              strokeWidth: "30px",
+              strokeWidth: "30px"
             }}
           />
         </svg>
