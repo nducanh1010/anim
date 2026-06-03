@@ -1,0 +1,39 @@
+---
+title: On motion
+date: 2026-04-02
+summary: Why prefers-reduced-motion is non-negotiable, and what good motion looks like.
+draft: false
+---
+
+Vestibular disorders affect roughly thirty-five percent of adults over
+forty. That number is uncomfortable. It means a third of the people
+who load your page are at risk of nausea, dizziness, or worse from a
+parallax scroll, a springy modal, an infinite-spin loader. A
+`prefers-reduced-motion: reduce` media query is two lines of CSS. It
+is the cheapest accessibility win on the shelf.
+
+The check is not optional. It is not a nice-to-have. The next time you
+ship a transition, run DevTools → Rendering → Emulate CSS media
+feature `prefers-reduced-motion: reduce`, reload, and walk every
+route. If anything still moves, the work is not done.
+
+Good motion under default settings is shorter than you think. The
+nervous system buffers sensory input for about eighty milliseconds.
+Anything inside that window feels instant. Anything between one and
+three hundred milliseconds feels like state change. Anything longer
+needs a reason. The 100/300/500 rule (instant, state, layout,
+entrance) is a useful starting heuristic, not a law.
+
+Easing matters more than duration. The CSS keyword `ease` is a
+compromise and almost never the right answer. For elements entering,
+use an ease-out curve, something that decelerates into place like a
+physical object settling under friction. Real objects do not bounce
+when they stop. They decelerate smoothly. Bounce and elastic curves
+were a 2015 affectation and now read as dated.
+
+The exception is the only thing worth animating: state change. A
+button that grows a touch on press, a list item that fades in as it
+enters the viewport, a theme toggle that crossfades between palettes.
+Everything else is decoration, and decoration accumulates into noise.
+Noise is what the user is trying to escape when they reach for a
+reduced-motion preference in the first place.
