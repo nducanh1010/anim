@@ -25,7 +25,7 @@ export function Now() {
         through both. Taking notes in a paper notebook, not an app.
       </Section>
 
-      <Section title="In ho chi minh city">
+      <Section title="In Hanoi capital">
         Sunny. 33 degrees. The kind of heat that makes you walk slowly
         and read more than you build.
       </Section>

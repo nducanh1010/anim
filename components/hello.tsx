@@ -5,6 +5,8 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import CustomEase from "gsap/CustomEase";
 
+gsap.registerPlugin(CustomEase);
+
 const STORAGE_KEY = "next_anim:hello-seen";
 const TOTAL_MS = 3600;
 
@@ -72,6 +74,9 @@ export default function Hello() {
         onComplete: () => setVisible(false),
       });
 
+      const greeting = box.querySelector<HTMLParagraphElement>(".hello__greeting");
+      const projectEaseOut = CustomEase.create("projectEaseOut", "M0,0 C0.22,1 0.36,1 1,1");
+
       tl.fromTo(
         svg,
         { strokeDashoffset: 1200 },
@@ -88,21 +93,24 @@ export default function Hello() {
 
       tl.to(svg, { fill: "var(--signature)", duration: 0.6 }, 1.0);
 
+      // Smooth sliding crossfade for greetings sequence
       greetings.forEach((_, i) => {
-        tl.to(
-          {},
-          {
-            duration: i === 0 ? 0.1 : 0.18,
-            onStart: () => setIndex(i),
-          },
-          1.4 + i * 0.18
-        );
+        const startOffset = 1.4 + i * 0.22;
+        if (i === 0) {
+          tl.set(greeting, { opacity: 0, y: 8 }, startOffset);
+          tl.call(() => setIndex(i), null, startOffset);
+          tl.to(greeting, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, startOffset);
+        } else {
+          tl.to(greeting, { opacity: 0, y: -6, duration: 0.08, ease: "power2.in" }, startOffset - 0.08);
+          tl.call(() => setIndex(i), null, startOffset);
+          tl.fromTo(greeting, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, startOffset);
+        }
       });
 
       tl.to(box, {
         yPercent: -100,
         duration: 0.6,
-        ease: "power2.inOut",
+        ease: projectEaseOut,
       });
     },
     { dependencies: [visible], scope: boxRef }
@@ -144,7 +152,7 @@ export default function Hello() {
         </text>
       </svg>
       <p
-        className="mt-space-5 font-display text-h3 text-ink"
+        className="hello__greeting mt-space-5 font-display text-h3 text-ink"
         aria-live="polite"
       >
         {greetings[index]}
