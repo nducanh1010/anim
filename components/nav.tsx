@@ -22,7 +22,7 @@ export function Navbar() {
           href="/"
           className="font-display text-base font-semibold text-ink-strong tracking-tight"
         >
-          hien vu<span className="text-accent">.</span>
+          anh nd<span className="text-accent">.</span>
         </Link>
 
         <nav aria-label="Primary" className="flex items-center gap-space-1">
@@ -30,7 +30,8 @@ export function Navbar() {
             const isCurrent =
               item.href === "/"
                 ? pathname === "/"
-                : pathname === item.href || pathname.startsWith(`${item.href}/`);
+                : pathname === item.href ||
+                  pathname.startsWith(`${item.href}/`);
             return (
               <Link
                 key={item.href}

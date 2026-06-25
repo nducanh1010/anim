@@ -1,5 +1,6 @@
 import { Link } from "next-view-transitions";
 import { getAllPosts } from "@/lib/posts";
+import { Hero } from "@/components/hero";
 
 function formatDate(iso: string): string {
   return iso?.slice(0, 10);
@@ -10,19 +11,7 @@ export default async function Home() {
 
   return (
     <div className="grid gap-space-9">
-      <section className="grid gap-space-5 sm:max-w-[60ch]">
-        <p className="uppercase-eyebrow">
-          independent builder <span aria-hidden="true">·</span> ho chi minh city
-        </p>
-        <h1 className="text-display font-display font-semibold tracking-tight text-ink-strong">
-          I make small, considered things for the web.
-        </h1>
-        <p className="text-lead text-ink">
-          Sometimes that is an interface, sometimes a map, sometimes a
-          long sentence I wanted to keep somewhere. I write about it
-          here.
-        </p>
-      </section>
+      <Hero />
 
       <section aria-labelledby="latest-heading" className="grid gap-space-4">
         <div className="flex items-baseline justify-between border-b border-rule pb-space-2">

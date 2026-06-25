@@ -23,7 +23,7 @@ export default function Footer() {
             ))}
           </ul>
           <p className="mt-space-3 text-xs text-ink-faint">
-            (c) {year} hien vu. Last rebuilt in jun 2026.
+            (c) {year} anh nd. Last rebuilt in jun 2026.
           </p>
         </div>
         <p

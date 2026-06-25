@@ -19,7 +19,7 @@ const dnCursive = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "hien vu. independent builder, ho chi minh city",
+  title: "anh nd. independent builder, ho chi minh city",
   description:
     "Small, considered things for the web. Journal, projects, and a now page.",
 };
@@ -42,11 +42,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ViewTransitions>
-      <html
-        lang="en"
-        className={dnCursive.variable}
-        suppressHydrationWarning
-      >
+      <html lang="en" className={dnCursive.variable} suppressHydrationWarning>
         <head>
           <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         </head>
@@ -54,7 +50,10 @@ export default function RootLayout({
           <SkipLink />
           <Hello />
           <Navbar />
-          <main id="main" className="mx-auto max-w-[80rem] px-gutter pb-space-9 pt-space-7">
+          <main
+            id="main"
+            className="mx-auto max-w-[80rem] px-gutter pb-space-9 pt-space-7"
+          >
             {children}
           </main>
           <Footer />

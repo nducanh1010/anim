@@ -2,7 +2,7 @@ import { getAllPosts } from "@/lib/posts";
 import { PostList } from "@/components/post-list";
 
 export const metadata = {
-  title: "Journal · hien vu.",
+  title: "Journal · anh nd.",
   description: "Writing is how I find out what I think.",
 };
 
@@ -17,8 +17,8 @@ export default async function BlogIndex() {
           Writing is how I find out what I think.
         </h1>
         <p className="text-ink-mute">
-          Most of these are short. The oldest ones are a little
-          embarrassed. Read in any order.
+          Most of these are short. The oldest ones are a little embarrassed.
+          Read in any order.
         </p>
       </header>
 

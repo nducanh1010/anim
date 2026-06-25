@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Now } from "@/components/now";
 
 export const metadata: Metadata = {
-  title: "Now · hien vu.",
+  title: "Now · anh nd.",
   description: "What I am working on, reading, and not doing.",
 };
 

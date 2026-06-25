@@ -18,9 +18,9 @@ export async function generateMetadata({
   const { slug } = await params;
   try {
     const post = await getPostBySlug(slug);
-    return { title: `${post.title} · hien vu.`, description: post.summary };
+    return { title: `${post.title} · anh nd.`, description: post.summary };
   } catch {
-    return { title: "Not found · hien vu." };
+    return { title: "Not found · anh nd." };
   }
 }
 
@@ -48,9 +48,13 @@ export default async function PostPage({
           <Link href="/blog" className="link-underline">
             journal
           </Link>
-          <span className="px-2 text-ink-faint" aria-hidden="true">·</span>
+          <span className="px-2 text-ink-faint" aria-hidden="true">
+            ·
+          </span>
           <time dateTime={post.date}>{formatDate(post.date)}</time>
-          <span className="px-2 text-ink-faint" aria-hidden="true">·</span>
+          <span className="px-2 text-ink-faint" aria-hidden="true">
+            ·
+          </span>
           <span>{post.readingTimeMinutes} min</span>
         </p>
         <h1 className="text-h1 font-display font-semibold tracking-tight text-ink-strong">
