@@ -6,7 +6,7 @@ export function Hero() {
       <p className="hero-band__eyebrow">
         <span className="uppercase-eyebrow">independent builder</span>
         <span aria-hidden="true"> · </span>
-        <span className="uppercase-eyebrow">ho chi minh city</span>
+        <span className="uppercase-eyebrow">HAN</span>
       </p>
 
       <h1 id="hero-heading" className="hero-band__heading">

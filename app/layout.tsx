@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ViewTransitions } from "next-view-transitions";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Navbar } from "@/components/nav";
+import Header from "@/components/header";
 import { SkipLink } from "@/components/skip-link";
 import Footer from "@/components/footer";
 import Hello from "@/components/hello";
@@ -19,7 +19,7 @@ const dnCursive = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "anh nd. independent builder, ho chi minh city",
+  title: "anhnd.",
   description:
     "Small, considered things for the web. Journal, projects, and a now page.",
 };
@@ -49,7 +49,7 @@ export default function RootLayout({
         <body className="bg-surface-0 text-ink font-body antialiased">
           <SkipLink />
           <Hello />
-          <Navbar />
+          <Header />
           <main
             id="main"
             className="mx-auto max-w-[80rem] px-gutter pb-space-9 pt-space-7"

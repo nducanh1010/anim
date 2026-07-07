@@ -1,8 +1,10 @@
 "use client";
 
+import React from "react";
 import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
+import Magnetic from "@/components/magnetic";
 
 type NavItem = { href: string; label: string; external?: boolean };
 
@@ -12,7 +14,7 @@ const items: NavItem[] = [
   { href: "/visitors", label: "now" },
 ];
 
-export function Navbar() {
+export function Navbar({ ref }: { ref?: React.Ref<HTMLDivElement> }) {
   const pathname = usePathname();
 
   return (
@@ -43,7 +45,14 @@ export function Navbar() {
               </Link>
             );
           })}
-          <ThemeToggle />
+          <Magnetic>
+            <div className="relative flex items-center justify-center p-2">
+              {/* <div ref={ref} className="sticky-cursor-target absolute inset-0 z-0 bg-transparent hover:scale-[2.5] transition-transform duration-200 cursor-pointer" /> */}
+              <div ref={ref} className="relative z-10 pointer-events-auto">
+                <ThemeToggle />
+              </div>
+            </div>
+          </Magnetic>
         </nav>
       </div>
     </header>

@@ -25,12 +25,43 @@ export default function Hello() {
   const [visible, setVisible] = useState(false);
   const [index, setIndex] = useState(0);
   const boxRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+
+  const loaderHeight = () => {
+    if (!boxRef.current) return 0;
+    return boxRef.current.getBoundingClientRect().height;
+  };
+
+  const setPath = (curve: number) => {
+    if (typeof window === "undefined") return;
+    const width = window.innerWidth;
+    const height = loaderHeight();
+    if (pathRef.current) {
+      pathRef.current.setAttributeNS(
+        null,
+        "d",
+        `M0 0
+        L${width} 0
+        L${width} ${height}
+        Q${width/2} ${height - curve} 0 ${height}
+        L0 0`
+      );
+    }
+  };
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.sessionStorage.getItem(STORAGE_KEY)) return;
     setVisible(true);
   }, []);
+
+  useEffect(() => {
+    if (!visible) return;
+    setPath(200);
+    const handleResize = () => setPath(200);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [visible]);
 
   const skip = () => {
     if (!boxRef.current) return;
@@ -98,20 +129,31 @@ export default function Hello() {
         const startOffset = 1.4 + i * 0.22;
         if (i === 0) {
           tl.set(greeting, { opacity: 0, y: 8 }, startOffset);
-          tl.call(() => setIndex(i), null, startOffset);
+          tl.call(() => setIndex(i), [], startOffset);
           tl.to(greeting, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, startOffset);
         } else {
           tl.to(greeting, { opacity: 0, y: -6, duration: 0.08, ease: "power2.in" }, startOffset - 0.08);
-          tl.call(() => setIndex(i), null, startOffset);
+          tl.call(() => setIndex(i), [], startOffset);
           tl.fromTo(greeting, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, startOffset);
         }
       });
 
+      const curveObj = { curve: 400 };
+
       tl.to(box, {
         yPercent: -100,
-        duration: 0.6,
+        duration: 1.5,
         ease: projectEaseOut,
       });
+
+      tl.to(curveObj, {
+        curve: 0,
+        duration: 2,
+        ease: projectEaseOut,
+        onUpdate: () => {
+          setPath(curveObj.curve);
+        }
+      }, "<");
     },
     { dependencies: [visible], scope: boxRef }
   );
@@ -128,35 +170,43 @@ export default function Hello() {
   return (
     <div
       ref={boxRef}
-      className="hello__curtain fixed inset-0 z-[var(--z-modal)] flex flex-col items-center justify-center"
+      className="hello__curtain fixed top-0 left-0 w-full h-[calc(100vh+200px)] z-[var(--z-modal)]"
       role="dialog"
       aria-label="Greeting"
     >
-      <button type="button" onClick={skip} className="hello__skip">
-        Skip
-      </button>
-      <svg
-        className="hello__svg"
-        viewBox="0 0 600 180"
-        aria-hidden="true"
-      >
-        <text
-          className="hello__path"
-          x="50%"
-          y="55%"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize="120"
+      <div className="absolute inset-0 pointer-events-none z-[-1] w-full h-full">
+        <svg className="w-full h-full">
+          <path ref={pathRef} className="stroke-black stroke-[1px] fill-[var(--surface-0)]" />
+        </svg>
+      </div>
+
+      <div className="relative w-full h-[100vh] flex flex-col items-center justify-center">
+        <button type="button" onClick={skip} className="hello__skip">
+          Skip
+        </button>
+        <svg
+          className="hello__svg"
+          viewBox="0 0 600 180"
+          aria-hidden="true"
         >
-          hello
-        </text>
-      </svg>
-      <p
-        className="hello__greeting mt-space-5 font-display text-h3 text-ink"
-        aria-live="polite"
-      >
-        {greetings[index]}
-      </p>
+          <text
+            className="hello__path"
+            x="50%"
+            y="55%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="120"
+          >
+            hello
+          </text>
+        </svg>
+        <p
+          className="hello__greeting mt-space-5 font-display text-h3 text-ink"
+          aria-live="polite"
+        >
+          {greetings[index]}
+        </p>
+      </div>
     </div>
   );
 }
