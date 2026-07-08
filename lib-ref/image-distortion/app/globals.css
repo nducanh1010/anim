@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Regular;
+  src: url('../../public/PPGatwick-Regular.otf');
+}
+
+body{
+  font-family: Regular;
+  background-color: white;
+}

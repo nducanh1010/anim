@@ -43,6 +43,7 @@ export default function StickyCursor({ stickyElement }: StickyCursorProps) {
     const center = { x: left + width / 2, y: top + height / 2 };
 
     if (isHovered) {
+      
       // Distance between the mouse pointer and the center of the custom cursor
       const distance = { x: clientX - center.x, y: clientY - center.y };
       
@@ -99,7 +100,6 @@ export default function StickyCursor({ stickyElement }: StickyCursorProps) {
   return (
     <div>
       <motion.div 
-        transformTemplate={template}
         style={{
           left: smoothMouse.x, 
           top: smoothMouse.y,

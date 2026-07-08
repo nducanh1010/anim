@@ -241,29 +241,24 @@ code:not(pre code) {
 }
 .hero-band__eyebrow {
   margin: 0;
-  mix-blend-mode: difference;
 }
 .hero-band__heading {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: var(--text-display);
+  font-weight: 500;
+  font-size: var(--text-h1);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
   text-wrap: balance;
-  max-width: 18ch;
+  max-width: 26ch;
   color: var(--ink-strong);
-  mix-blend-mode: difference;
 }
 .hero-band__flourish {
   font-family: var(--font-script);
   font-style: italic;
   font-weight: 400;
-  color: var(--signature);
+  color: var(--ink-strong);
   vertical-align: -0.05em;
-  /* No mix-blend-mode: saffron should read as saffron on paper, not
-     inverted. Trade-off: in a dark section it remains saffron and may
-     fight contrast — acceptable since hero is the topmost section. */
 }
 .hero-band__body {
   margin: 0;
@@ -272,7 +267,6 @@ code:not(pre code) {
   line-height: var(--leading-body);
   color: var(--ink);
   max-width: var(--measure);
-  mix-blend-mode: difference;
 }
 .hero-band__now {
   margin: 0;
@@ -281,7 +275,6 @@ code:not(pre code) {
   text-transform: uppercase;
   letter-spacing: var(--tracking-caps);
   color: var(--ink-mute);
-  mix-blend-mode: difference;
 }
 .hero-band__now-link {
   color: inherit;

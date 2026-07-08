@@ -3,8 +3,8 @@
 import React from "react";
 import { Link } from "next-view-transitions";
 import { usePathname } from "next/navigation";
-import { ThemeToggle } from "@/components/theme-toggle";
 import Magnetic from "@/components/magnetic";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type NavItem = { href: string; label: string; external?: boolean };
 
@@ -39,19 +39,15 @@ export function Navbar({ ref }: { ref?: React.Ref<HTMLDivElement> }) {
                 key={item.href}
                 href={item.href}
                 aria-current={isCurrent ? "page" : undefined}
-                className="nav-link"
+                className="nav-link relative group"
               >
+
                 {item.label}
               </Link>
             );
           })}
-          <Magnetic>
-            <div className="relative flex items-center justify-center p-2">
-              {/* <div ref={ref} className="sticky-cursor-target absolute inset-0 z-0 bg-transparent hover:scale-[2.5] transition-transform duration-200 cursor-pointer" /> */}
-              <div ref={ref} className="relative z-10 pointer-events-auto">
-                <ThemeToggle />
-              </div>
-            </div>
+          <Magnetic ref={ref} sticky>
+            <ThemeToggle />
           </Magnetic>
         </nav>
       </div>
