@@ -1,6 +1,7 @@
 import { Link } from "next-view-transitions";
 import { getAllPosts } from "@/lib/posts";
 import { Hero } from "@/components/hero";
+import Scene from "@/lib-ref/ripple/components/Scene";
 
 function formatDate(iso: string): string {
   return iso?.slice(0, 10);
@@ -11,6 +12,7 @@ export default async function Home() {
 
   return (
     <div className="grid gap-space-9">
+      <Scene />
       <Hero />
 
       <section aria-labelledby="latest-heading" className="grid gap-space-4">

@@ -21,7 +21,6 @@ const Magnetic = forwardRef<HTMLDivElement, MagneticProps>(
       const { height, width, left, top } = activeRef.current.getBoundingClientRect();
       const middleX = clientX - (left + width / 2);
       const middleY = clientY - (top + height / 2);
-      console.log(middleX)
 
       setPosition({ x: middleX * 0.1, y: middleY * 0.1 });
     };
