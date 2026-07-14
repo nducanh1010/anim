@@ -1,5 +1,5 @@
 import { getAllPosts } from "@/lib/posts";
-import { PostList } from "@/components/post-list";
+import { PostList } from "@/components/post/post-list";
 
 export const metadata = {
   title: "Journal · anh nd.",

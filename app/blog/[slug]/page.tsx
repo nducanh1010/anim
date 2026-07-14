@@ -1,7 +1,7 @@
 import { Link } from "next-view-transitions";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
-import { PostBody } from "@/components/post-body";
+import { PostBody } from "@/components/post/post-body";
 
 type Params = { slug: string };
 
