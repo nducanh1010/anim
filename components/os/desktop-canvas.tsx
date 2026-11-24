@@ -44,8 +44,10 @@ const DESKTOP_PROJECTS = [
 ];
 
 export function DesktopCanvas({ children }: DesktopCanvasProps) {
-  const { openWindow } = useWindowManager();
-  const iconList = Object.values(INITIAL_WINDOWS);
+  const { windows, openWindow, closeWindow } = useWindowManager();
+  const iconList = Object.values(INITIAL_WINDOWS).filter((w) =>
+    ['works', 'about', 'journal', 'terminal'].includes(w.id)
+  );
   const canvasRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -86,18 +88,30 @@ export function DesktopCanvas({ children }: DesktopCanvasProps) {
 
         {/* Draggable Desktop Project Items (ByChudy concept) */}
         <div className="hidden md:block">
-          {DESKTOP_PROJECTS.map((proj) => (
-            <DesktopProjectItem
-              key={proj.id}
-              id={proj.id}
-              title={proj.title}
-              filename={proj.filename}
-              image={proj.image}
-              defaultPosition={proj.defaultPosition}
-              dragConstraintsRef={canvasRef}
-              onOpen={() => openWindow('works')}
-            />
-          ))}
+          {DESKTOP_PROJECTS.map((proj) => {
+            const isWinOpen =
+              windows[proj.id as WindowId]?.isOpen &&
+              !windows[proj.id as WindowId]?.isMinimized;
+            return (
+              <DesktopProjectItem
+                key={proj.id}
+                id={proj.id}
+                title={proj.title}
+                filename={proj.filename}
+                image={proj.image}
+                defaultPosition={proj.defaultPosition}
+                dragConstraintsRef={canvasRef}
+                isOpen={isWinOpen}
+                onToggle={() => {
+                  if (isWinOpen) {
+                    closeWindow(proj.id as WindowId);
+                  } else {
+                    openWindow(proj.id as WindowId);
+                  }
+                }}
+              />
+            );
+          })}
         </div>
 
         {/* Windows Layer (rendered as children) */}

@@ -1,4 +1,13 @@
-export type WindowId = 'works' | 'about' | 'journal' | 'terminal';
+export type WindowId =
+  | 'works'
+  | 'about'
+  | 'journal'
+  | 'terminal'
+  | 'kinetic-type'
+  | 'spatial-studio'
+  | 'fluid-canvas'
+  | 'fintech-system'
+  | (string & {});
 
 export interface WindowConfig {
   id: WindowId;
@@ -72,6 +81,46 @@ export const INITIAL_WINDOWS: Record<WindowId, WindowConfig> = {
     defaultPosition: { x: 280, y: 140 },
     defaultSize: { width: 580, height: 360 },
     minSize: { width: 400, height: 280 },
+    initiallyOpen: false,
+  },
+  'kinetic-type': {
+    id: 'kinetic-type',
+    title: 'Kinetic Type.jpg — Preview',
+    label: 'Kinetic Type',
+    iconName: 'image',
+    defaultPosition: { x: 400, y: 70 },
+    defaultSize: { width: 540, height: 500 },
+    minSize: { width: 380, height: 340 },
+    initiallyOpen: false,
+  },
+  'spatial-studio': {
+    id: 'spatial-studio',
+    title: 'Spatial Studio.png — Preview',
+    label: 'Spatial Studio',
+    iconName: 'image',
+    defaultPosition: { x: 470, y: 110 },
+    defaultSize: { width: 540, height: 500 },
+    minSize: { width: 380, height: 340 },
+    initiallyOpen: false,
+  },
+  'fluid-canvas': {
+    id: 'fluid-canvas',
+    title: 'Fluid Canvas.jpg — Preview',
+    label: 'Fluid Canvas',
+    iconName: 'image',
+    defaultPosition: { x: 340, y: 130 },
+    defaultSize: { width: 540, height: 500 },
+    minSize: { width: 380, height: 340 },
+    initiallyOpen: false,
+  },
+  'fintech-system': {
+    id: 'fintech-system',
+    title: 'Fintech System.png — Preview',
+    label: 'Fintech System',
+    iconName: 'image',
+    defaultPosition: { x: 260, y: 90 },
+    defaultSize: { width: 540, height: 500 },
+    minSize: { width: 380, height: 340 },
     initiallyOpen: false,
   },
 };

@@ -141,25 +141,19 @@ function TitleBar({
           : 'bg-transparent border-rule/40 dark:border-white/5'
       }`}
     >
-      {/* Left: Traffic Lights (macOS state-responsive) */}
-      <div className="flex items-center gap-2 group/controls py-1">
+      {/* Left: Traffic Lights (Clean Apple circles, no hover symbols) */}
+      <div className="flex items-center gap-2 py-1">
         {/* Close (Red) */}
         <button
           onClick={(e) => {
             e.stopPropagation();
             onClose();
           }}
-          className={`w-3 h-3 rounded-full flex items-center justify-center transition-all duration-fast active:scale-90 ${
-            isActive
-              ? 'bg-[#ff5f57]'
-              : 'bg-ink/20 dark:bg-white/20 group-hover/controls:bg-[#ff5f57]'
+          className={`w-3 h-3 rounded-full transition-all duration-fast active:scale-90 ${
+            isActive ? 'bg-[#ff5f57]' : 'bg-ink/20 dark:bg-white/20 hover:bg-[#ff5f57]'
           }`}
           aria-label="Close window"
-        >
-          <span className="opacity-0 group-hover/controls:opacity-100 text-[9px] font-bold text-black/70 leading-none">
-            ×
-          </span>
-        </button>
+        />
 
         {/* Minimize (Yellow) */}
         <button
@@ -167,17 +161,11 @@ function TitleBar({
             e.stopPropagation();
             onMinimize();
           }}
-          className={`w-3 h-3 rounded-full flex items-center justify-center transition-all duration-fast active:scale-90 ${
-            isActive
-              ? 'bg-[#febc2e]'
-              : 'bg-ink/20 dark:bg-white/20 group-hover/controls:bg-[#febc2e]'
+          className={`w-3 h-3 rounded-full transition-all duration-fast active:scale-90 ${
+            isActive ? 'bg-[#febc2e]' : 'bg-ink/20 dark:bg-white/20 hover:bg-[#febc2e]'
           }`}
           aria-label="Minimize window"
-        >
-          <span className="opacity-0 group-hover/controls:opacity-100 text-[9px] font-bold text-black/70 leading-none">
-            −
-          </span>
-        </button>
+        />
 
         {/* Maximize (Green) */}
         <button
@@ -185,17 +173,11 @@ function TitleBar({
             e.stopPropagation();
             onMaximize();
           }}
-          className={`w-3 h-3 rounded-full flex items-center justify-center transition-all duration-fast active:scale-90 ${
-            isActive
-              ? 'bg-[#28c840]'
-              : 'bg-ink/20 dark:bg-white/20 group-hover/controls:bg-[#28c840]'
+          className={`w-3 h-3 rounded-full transition-all duration-fast active:scale-90 ${
+            isActive ? 'bg-[#28c840]' : 'bg-ink/20 dark:bg-white/20 hover:bg-[#28c840]'
           }`}
           aria-label={isMaximized ? 'Restore window' : 'Maximize window'}
-        >
-          <span className="opacity-0 group-hover/controls:opacity-100 text-[8px] font-bold text-black/70 leading-none">
-            {isMaximized ? '⤡' : '+'}
-          </span>
-        </button>
+        />
       </div>
 
       {/* Center: Title */}

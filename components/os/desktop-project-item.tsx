@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
@@ -11,7 +11,8 @@ interface DesktopProjectItemProps {
   image: string;
   defaultPosition: { x: number; y: number };
   dragConstraintsRef?: React.RefObject<HTMLDivElement | null>;
-  onOpen: () => void;
+  isOpen?: boolean;
+  onToggle: () => void;
 }
 
 export function DesktopProjectItem({
@@ -20,29 +21,20 @@ export function DesktopProjectItem({
   image,
   defaultPosition,
   dragConstraintsRef,
-  onOpen,
+  isOpen = false,
+  onToggle,
 }: DesktopProjectItemProps) {
-  const lastClickRef = useRef<number>(0);
   const isDraggingRef = useRef<boolean>(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    // Do not toggle if the user was dragging the card
     if (isDraggingRef.current) return;
-
-    const now = Date.now();
-    // Double click detection (~320ms window)
-    if (now - lastClickRef.current < 320) {
-      onOpen();
-    }
-    lastClickRef.current = now;
+    onToggle();
   };
 
-  const handleDoubleClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!isDraggingRef.current) {
-      onOpen();
-    }
-  };
+  const isHighlighted = isHovered || isOpen;
 
   return (
     <motion.div
@@ -54,16 +46,16 @@ export function DesktopProjectItem({
         isDraggingRef.current = true;
       }}
       onDragEnd={() => {
-        // Small delay to prevent drag release from triggering onClick
         setTimeout(() => {
           isDraggingRef.current = false;
         }, 80);
       }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ type: 'spring', duration: 0.4, bounce: 0.15 }}
       onClick={handleClick}
-      onDoubleClick={handleDoubleClick}
       style={{
         position: 'absolute',
         left: defaultPosition.x,
@@ -71,25 +63,47 @@ export function DesktopProjectItem({
         touchAction: 'none',
         userSelect: 'none',
       }}
-      className="z-10 flex flex-col items-center group cursor-grab active:cursor-grabbing select-none"
-      title={`${title} (Double-click to open)`}
+      className={`flex flex-col items-center select-none cursor-grab active:cursor-grabbing p-1 ${
+        isHighlighted ? 'z-30' : 'z-10'
+      }`}
+      title={`${title} (Click to open / close)`}
     >
-      {/* Photo Frame / Mac Image Preview File with pure CSS hover to eliminate transform fighting */}
-      <div className="relative w-28 h-20 sm:w-32 sm:h-24 rounded-lg overflow-hidden bg-surface-1/95 p-1 border border-rule/70 dark:border-white/20 shadow-[0_6px_16px_rgba(0,0,0,0.18)] group-hover:shadow-[0_12px_28px_rgba(0,0,0,0.28)] group-hover:scale-[1.02] transition-all duration-150 ease-out pointer-events-none">
-        <div className="relative w-full h-full rounded overflow-hidden bg-surface-2 pointer-events-none">
+      {/* 
+        Image Frame:
+        Scale is tied to the parent-level isHovered state (synchronized with text).
+        Hovering over text keeps the image scaled (no transform reset).
+        Clean border + bg with spring physics, no shadow jumps.
+      */}
+      <motion.div
+        animate={{ scale: isHovered ? 1.15 : 1 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ type: 'spring', duration: 0.4, bounce: 0.2 }}
+        className="relative p-0.5 rounded-[4px] border border-white/50 bg-black/25 pointer-events-none"
+      >
+        <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-[3px] overflow-hidden pointer-events-none">
           <Image
             src={image}
             alt={title}
             fill
             draggable={false}
             className="object-cover pointer-events-none select-none"
-            sizes="130px"
+            sizes="120px"
           />
         </div>
-      </div>
+      </motion.div>
 
-      {/* Mac Desktop File Label */}
-      <div className="mt-1.5 px-2 py-0.5 rounded-md bg-surface-0/85 dark:bg-palette-ink-9/85 backdrop-blur-md border border-rule/40 text-[11px] font-mono text-ink-strong shadow-sm group-hover:bg-accent group-hover:text-white transition-colors duration-fast truncate max-w-[124px] pointer-events-none">
+      {/* 
+        Mac Desktop File Label:
+        Synchronized with image hover.
+        transform: none to prevent any font rasterization / subpixel jitter.
+        Smooth background transition to macOS Finder blue rgb(2, 88, 208).
+      */}
+      <div
+        className={`mt-1.5 px-1.5 py-0.5 rounded-[3px] text-[11px] font-sans font-medium text-white [text-shadow:rgba(0,0,0,0.6)_1px_1px_2px] text-center max-w-[124px] truncate pointer-events-none transition-colors duration-150 ${
+          isHighlighted ? 'bg-[#0258d0]' : 'bg-transparent'
+        }`}
+        style={{ transform: 'none' }}
+      >
         {filename}
       </div>
     </motion.div>

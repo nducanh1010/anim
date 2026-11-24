@@ -1,17 +1,17 @@
 # Graph Report - anim  (2026-11-25)
 
 ## Corpus Check
-- 88 files · ~139,714 words
+- 89 files · ~140,331 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 19 file(s) not represented in the graph (top: .css 5, .avif 5, .ico 4)
 
 ## Summary
-- 788 nodes · 1768 edges · 42 communities (39 shown, 3 thin omitted)
+- 791 nodes · 1778 edges · 44 communities (41 shown, 3 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 38 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b6ca5654`
+- Built from commit: `c01e4b51`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -19,7 +19,7 @@
 - react
 - modern-screenshot.umd.js
 - ripple/components/Model.jsx
-- desktop-container.tsx
+- posts.ts
 - live-accept.mjs
 - live-browser.js
 - next
@@ -52,45 +52,47 @@
 - scripts
 - image-distortion/app/layout.js
 - postcss.config.mjs
-- react-dom@^19.0.0
+- window-context.tsx
 - image-distortion/components/Model.jsx
 - layout.tsx
 - model.tsx
 - nav.tsx
 - visitors/page.tsx
+- desktop-container.tsx
+- ripple/app/page.js
 
 ## God Nodes (most connected - your core abstractions)
-1. `react` - 38 edges
-2. `handleClick()` - 18 edges
-3. `handleKeyDown()` - 18 edges
-4. `resumeSession()` - 18 edges
-5. `createLiveBrowserSessionState()` - 16 edges
+1. `react` - 39 edges
+2. `resumeSession()` - 18 edges
+3. `handleClick()` - 18 edges
+4. `handleKeyDown()` - 18 edges
+5. `next` - 17 edges
 6. `updateBarContent()` - 16 edges
-7. `next` - 16 edges
+7. `createLiveBrowserSessionState()` - 16 edges
 8. `compilerOptions` - 16 edges
 9. `renderDesignVisual()` - 15 edges
-10. `el()` - 14 edges
+10. `handleGo()` - 14 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `generateStaticParams()` --calls--> `getAllPosts()`  [EXTRACTED]
-  app/blog/[slug]/page.tsx → lib/posts.ts
-- `generateMetadata()` --calls--> `getPostBySlug()`  [EXTRACTED]
-  app/blog/[slug]/page.tsx → lib/posts.ts
-- `RootLayout()` --calls--> `Header()`  [EXTRACTED]
-  app/layout.tsx → components/header.tsx
 - `DesktopContainerProps` --references--> `Post`  [EXTRACTED]
   components/os/desktop-container.tsx → lib/posts.ts
-- `DesktopIconProps` --references--> `WindowId`  [EXTRACTED]
-  components/os/desktop-icon.tsx → lib/os/types.ts
+- `Home()` --calls--> `DesktopContainer()`  [EXTRACTED]
+  app/page.tsx → components/os/desktop-container.tsx
+- `DockItemProps` --references--> `WindowId`  [EXTRACTED]
+  components/os/dock.tsx → lib/os/types.ts
+- `ProjectPreviewView()` --calls--> `useWindowManager()`  [EXTRACTED]
+  components/os/views/project-preview-view.tsx → lib/os/window-context.tsx
+- `WindowFrameProps` --references--> `WindowId`  [EXTRACTED]
+  components/os/window-frame.tsx → lib/os/types.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (42 total, 3 thin omitted)
+## Communities (44 total, 3 thin omitted)
 
 ### Community 0 - "react"
 Cohesion: 0.18
-Nodes (6): Home(), Header, Framer(), index(), framer-motion, react
+Nodes (5): Home(), Header, Framer(), index(), react
 
 ### Community 1 - "modern-screenshot.umd.js"
 Cohesion: 0.09
@@ -100,9 +102,9 @@ Nodes (53): ae(), be(), bt(), Ce(), Ct(), de(), dt(), _e() (+45 more)
 Cohesion: 0.22
 Nodes (10): Model(), setNewWave(), trackMousePos(), Scene(), useDimension(), useMouse(), fragment, vertex (+2 more)
 
-### Community 3 - "desktop-container.tsx"
-Cohesion: 0.05
-Nodes (64): BlogIndex(), metadata, formatDate(), generateMetadata(), generateStaticParams(), Params, PostPage(), Home() (+56 more)
+### Community 3 - "posts.ts"
+Cohesion: 0.12
+Nodes (23): BlogIndex(), metadata, formatDate(), generateMetadata(), generateStaticParams(), Params, PostPage(), Home() (+15 more)
 
 ### Community 4 - "live-accept.mjs"
 Cohesion: 0.10
@@ -114,7 +116,7 @@ Nodes (36): buildCollapsible(), buildColorModels(), buildListHtml(), buildRadiiM
 
 ### Community 6 - "next"
 Cohesion: 0.12
-Nodes (8): inter, metadata, Home(), Scene, inter, metadata, nextConfig, next
+Nodes (7): DesktopProjectItemProps, inter, metadata, inter, metadata, nextConfig, next
 
 ### Community 7 - "handleClick"
 Cohesion: 0.13
@@ -141,8 +143,8 @@ Cohesion: 0.16
 Nodes (19): CRITIQUE_DIR, firstExisting(), getDesignSidecarCandidates(), getDesignSidecarPath(), getImpeccableDir(), getLegacyLiveConfigPath(), getLegacyLiveServerPath(), getLiveAnnotationsDir() (+11 more)
 
 ### Community 13 - "dependencies"
-Cohesion: 0.10
-Nodes (20): dependencies, framer-motion@^12.42.2, geist@^1.3.1, gray-matter@^4.0.3, gsap@^3.12.7, @gsap/react@^2.1.2, next@15.1.5, react@^19.0.0 (+12 more)
+Cohesion: 0.09
+Nodes (22): dependencies, framer-motion@^12.42.2, geist@^1.3.1, gray-matter@^4.0.3, gsap@^3.12.7, @gsap/react@^2.1.2, next@15.1.5, react@^19.0.0 (+14 more)
 
 ### Community 14 - "live-session-store.mjs"
 Cohesion: 0.18
@@ -189,11 +191,11 @@ Cohesion: 0.18
 Nodes (10): detectCsp(), INLINE_HEADER_SIGNALS, LAYOUT_EXTS, MONOREPO_HELPER_SIGNALS, NUXT_ROUTE_RULES_SIGNALS, NUXT_SECURITY_SIGNALS, SCAN_EXTS, SKIP_DIRS (+2 more)
 
 ### Community 25 - "pin.mjs"
-Cohesion: 0.23
+Cohesion: 0.21
 Nodes (9): __dirname, findHarnessDirs(), generatePinnedSkill(), HARNESS_DIRS, loadCommandMetadata(), pin(), root, unpin() (+1 more)
 
 ### Community 26 - "ref_node_fs"
-Cohesion: 0.27
+Cohesion: 0.31
 Nodes (9): cli(), DESIGN_NAMES, FALLBACK_DIRS, firstExisting(), LEGACY_NAMES, loadContext(), PRODUCT_NAMES, resolveContextDir() (+1 more)
 
 ### Community 27 - "readLiveServerInfo"
@@ -224,6 +226,10 @@ Nodes (3): Home(), lenis@^1.1.20, lenis
 Cohesion: 0.40
 Nodes (5): scripts, build, dev, lint, start
 
+### Community 36 - "window-context.tsx"
+Cohesion: 0.17
+Nodes (22): DESKTOP_PROJECTS, DesktopCanvas(), DesktopCanvasProps, DesktopIcon(), DesktopIconProps, DesktopProjectItem(), Dock(), DOCK_ICON_MAP (+14 more)
+
 ### Community 37 - "image-distortion/components/Model.jsx"
 Cohesion: 0.21
 Nodes (7): projects, Model(), Scene(), fragment, vertex, useDimension(), useMouse()
@@ -237,12 +243,16 @@ Cohesion: 0.21
 Nodes (11): RippleShader, RippleShaderComponent(), RippleShaderProps, Model(), setNewWave(), trackMousePos(), ModelProps, fragmentShader (+3 more)
 
 ### Community 40 - "nav.tsx"
-Cohesion: 0.26
-Nodes (8): Header(), Magnetic, MagneticProps, items, Navbar(), NavItem, StickyCursor(), StickyCursorProps
+Cohesion: 0.18
+Nodes (14): Header(), Magnetic, MagneticProps, items, Navbar(), NavItem, StickyCursor(), StickyCursorProps (+6 more)
 
 ### Community 41 - "visitors/page.tsx"
 Cohesion: 0.53
 Nodes (4): metadata, VisitorsPage(), Now(), Section()
+
+### Community 42 - "desktop-container.tsx"
+Cohesion: 0.16
+Nodes (15): DesktopContainer(), DesktopContainerProps, AboutView(), JournalView(), JournalViewProps, ProjectPreviewView(), ProjectPreviewViewProps, CommandOutput (+7 more)
 
 ## Knowledge Gaps
 - **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
@@ -250,17 +260,17 @@ Nodes (4): metadata, VisitorsPage(), Now(), Section()
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `react` to `image-distortion/app/page.js`, `ripple/components/Model.jsx`, `desktop-container.tsx`, `image-distortion/components/Model.jsx`, `layout.tsx`, `model.tsx`, `nav.tsx`, `package.json`, `dependencies`?**
-  _High betweenness centrality (0.115) - this node is a cross-community bridge._
+- **Why does `react` connect `react` to `image-distortion/app/page.js`, `ripple/components/Model.jsx`, `window-context.tsx`, `image-distortion/components/Model.jsx`, `layout.tsx`, `next`, `nav.tsx`, `model.tsx`, `desktop-container.tsx`, `package.json`, `dependencies`?**
+  _High betweenness centrality (0.116) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `handleClick()` (e.g. with `init()` and `teardown()`) actually correct?**
   _`handleClick()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **Should `modern-screenshot.umd.js` be split into smaller, more focused modules?**
   _Cohesion score 0.08583959899749373 - nodes in this community are weakly interconnected._
-- **Why does `next` connect `next` to `desktop-container.tsx`, `layout.tsx`, `model.tsx`, `nav.tsx`, `visitors/page.tsx`, `package.json`, `dependencies`?**
+- **Why does `next` connect `next` to `posts.ts`, `window-context.tsx`, `layout.tsx`, `model.tsx`, `nav.tsx`, `visitors/page.tsx`, `desktop-container.tsx`, `ripple/app/page.js`, `package.json`, `dependencies`?**
   _High betweenness centrality (0.056) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `handleKeyDown()` (e.g. with `init()` and `teardown()`) actually correct?**
   _`handleKeyDown()` has 2 INFERRED edges - model-reasoned connections that need verification._
-- **Should `desktop-container.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.05220883534136546 - nodes in this community are weakly interconnected._
-- **Why does `next-view-transitions` connect `desktop-container.tsx` to `nav.tsx`, `package.json`, `layout.tsx`?**
+- **Should `posts.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.12315270935960591 - nodes in this community are weakly interconnected._
+- **Why does `next-view-transitions` connect `posts.ts` to `nav.tsx`, `desktop-container.tsx`, `package.json`, `layout.tsx`?**
   _High betweenness centrality (0.015) - this node is a cross-community bridge._

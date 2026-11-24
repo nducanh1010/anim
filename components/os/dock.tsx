@@ -11,7 +11,7 @@ interface DockItemProps {
   iconPath: string;
 }
 
-const DOCK_ICON_MAP: Record<WindowId, string> = {
+const DOCK_ICON_MAP: Partial<Record<WindowId, string>> = {
   works: '/images/Gallery.avif',
   about: '/images/Note.avif',
   journal: '/images/Mail.avif',
@@ -60,7 +60,9 @@ function DockItem({ id, label, iconPath }: DockItemProps) {
 
 export function Dock() {
   const { openWindow } = useWindowManager();
-  const items = Object.values(INITIAL_WINDOWS);
+  const items = Object.values(INITIAL_WINDOWS).filter((item) =>
+    ['works', 'about', 'journal', 'terminal'].includes(item.id)
+  );
 
   return (
     <footer
