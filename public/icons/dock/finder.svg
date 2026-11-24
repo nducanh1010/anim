@@ -1,0 +1,28 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="finderBg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3CD0FF"/>
+      <stop offset="50%" stop-color="#0E8BFF"/>
+      <stop offset="100%" stop-color="#005CD6"/>
+    </linearGradient>
+    <linearGradient id="finderFace" x1="16" y1="12" x2="48" y2="52" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E1EEFF"/>
+    </linearGradient>
+    <filter id="dockShadow" x="-2" y="-1" width="68" height="68" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#finderBg)" filter="url(#dockShadow)"/>
+  <rect x="4" y="4" width="56" height="56" rx="14" stroke="rgba(255,255,255,0.4)" stroke-width="1"/>
+  <!-- Two tone split face -->
+  <path d="M4 18C4 10.268 10.268 4 18 4H32V60H18C10.268 60 4 53.732 4 46V18Z" fill="#1DA1FF" fill-opacity="0.35"/>
+  <!-- Eyes -->
+  <circle cx="23" cy="24" r="3.5" fill="#1C3553"/>
+  <circle cx="41" cy="24" r="3.5" fill="#1C3553"/>
+  <!-- Nose bridge -->
+  <path d="M32 16V36C32 39 34 41 37 41" stroke="#1C3553" stroke-width="3" stroke-linecap="round"/>
+  <!-- Classic Finder Smile -->
+  <path d="M19 43C22 50 42 50 45 43" stroke="#1C3553" stroke-width="3" stroke-linecap="round"/>
+</svg>
+

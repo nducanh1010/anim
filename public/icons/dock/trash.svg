@@ -1,0 +1,20 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="trashBg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E1E5EA"/>
+      <stop offset="100%" stop-color="#A5ACB5"/>
+    </linearGradient>
+    <filter id="trShadow" x="-2" y="-1" width="68" height="68" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <!-- Wireframe mesh cylinder (Apple Trash can) -->
+  <path d="M16 18H48L44 54C44 56.2 42.2 58 40 58H24C21.8 58 20 56.2 20 54L16 18Z" fill="url(#trashBg)" fill-opacity="0.75" filter="url(#trShadow)"/>
+  <ellipse cx="32" cy="18" rx="16" ry="4" fill="#CCD2DC"/>
+  <ellipse cx="32" cy="18" rx="14" ry="3" fill="#88919E"/>
+  <!-- Metallic vertical ribs -->
+  <line x1="24" y1="21" x2="26" y2="55" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+  <line x1="32" y1="22" x2="32" y2="56" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+  <line x1="40" y1="21" x2="38" y2="55" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+</svg>
+

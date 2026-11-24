@@ -10,15 +10,17 @@ colors:
   signature: "#dfb059"          # Chữ ký viết tay - Saffron (oklch(78% 0.140 75))
 typography:
   display:
-    fontFamily: "ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(3rem, 2.2rem + 4.5vw, 5.5rem)"
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif"
+    fontSize: "clamp(2rem, 1.5rem + 3vw, 4rem)"
     fontWeight: 600
     lineHeight: 1.12
   body:
-    fontFamily: "ui-serif, Georgia, serif"
-    fontSize: "1.0625rem"
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', system-ui, sans-serif"
+    fontSize: "0.9375rem"
     fontWeight: 400
-    lineHeight: 1.6
+    lineHeight: 1.5
+  mono:
+    fontFamily: "'SF Mono', ui-monospace, Menlo, Monaco, Consolas, monospace"
 rounded:
   sm: "4px"
   md: "8px"
@@ -33,18 +35,18 @@ components:
     padding: "0"
 ---
 
-# Design System: Next Anim 
+# Design System: Next Anim (Desktop OS & Apple Design System)
 
 ## 1. Overview
 
-**Creative North Star: "The Editorial Sanctuary" (Thánh đường Biên tập)**
+**Creative North Star: "Spatial Desktop OS" (Inspired by bychudy.com & Apple macOS)**
 
-Hệ thống thiết kế này lấy cảm hứng từ các tạp chí văn học và chuyên trang thiết kế in ấn cổ điển. Nó tôn vinh sự yên lặng (calmness), khoảng thở rộng rãi và độ chính xác tối đa trong sắp đặt chữ (Typography) để tạo cảm giác dễ chịu cho người đọc.
+Hệ thống thiết kế này mô phỏng giao diện hệ điều hành máy tính Apple Mac Desktop với các cửa sổ đa nhiệm kéo thả tự do, thanh Menu Bar trên cùng, và thanh Dock kính mờ ở đáy màn hình.
 
 ### Key Characteristics:
-*   **Neutral Warm Canvas:** Toàn bộ trang web được bao phủ bởi sắc ngà ấm áp, loại bỏ hoàn toàn màu đen/trắng kỹ thuật để giảm mỏi mắt.
-*   **Typographic Hierarchy:** Sử dụng sự tương phản mạnh mẽ giữa tiêu đề Sans-serif lớn, hiện đại và phần nội dung chính Serif cổ điển.
-*   **Restrained Action:** Sự tối giản trong các đường nét phân chia, chỉ dùng hiệu ứng khi cần thiết.
+*   **Neutral Studio Wallpaper:** Nền studio tối giản với ánh sáng vignette tinh tế, tôn vinh các cửa sổ làm việc.
+*   **Apple System Typography:** Toàn bộ trang web sử dụng **Sans-Serif** (`SF Pro Display` cho tiêu đề và `SF Pro Text` cho văn bản nội dung), kèm `SF Mono` cho các chi tiết kỹ thuật/terminal.
+*   **Tactile Dock & Window Chrome:** Thanh Dock cố định kích thước icon không phóng to lố, không viền thừa, hiển thị tooltip frosted glass khi hover. Cửa sổ kéo thả mượt mà với 3 nút điều khiển traffic lights kinh điển của macOS.
 
 ---
 

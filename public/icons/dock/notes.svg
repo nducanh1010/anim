@@ -1,0 +1,25 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="notesBg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F2F2F2"/>
+    </linearGradient>
+    <linearGradient id="notesHeader" x1="0" y1="0" x2="64" y2="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFDD33"/>
+      <stop offset="100%" stop-color="#FFBF00"/>
+    </linearGradient>
+    <filter id="nShadow" x="-2" y="-1" width="68" height="68" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#notesBg)" filter="url(#nShadow)"/>
+  <rect x="4" y="4" width="56" height="56" rx="14" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+  <!-- Yellow top strip -->
+  <path d="M4 18C4 10.268 10.268 4 18 4H46C53.732 4 60 10.268 60 18V22H4V18Z" fill="url(#notesHeader)"/>
+  <line x1="4" y1="22" x2="60" y2="22" stroke="#E59400" stroke-width="1"/>
+  <!-- Lined notebook rows -->
+  <line x1="12" y1="31" x2="52" y2="31" stroke="#D8D8D8" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="12" y1="40" x2="52" y2="40" stroke="#D8D8D8" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="12" y1="49" x2="38" y2="49" stroke="#D8D8D8" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+

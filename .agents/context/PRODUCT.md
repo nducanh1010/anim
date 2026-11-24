@@ -2,64 +2,42 @@
 
 ## Users
 
-One person: an independent builder in Ho Chi Minh City who keeps a small
-journal of considered web work. Visitors are technical peers (designers,
-developers, recruiters scanning for craft), not customers. They open the
-site on a laptop in a low-light room, scroll slowly, and judge the work by
-how the details feel under their finger.
+Designers, art directors, creative technologists, engineering leads, and recruiters scanning for exceptional craft. Visitors open the site on a desktop or laptop, curious to explore an unconventional, tactile digital workspace.
 
 ## Product purpose
 
-A small, quiet portfolio + journal. Three jobs to do well:
+An interactive **Desktop OS Portfolio** inspired by **bychudy.com** (Mateusz Chudy). Three core jobs:
 
-1. Show the work with documentary honesty — no marketing spin, just
-   screenshots and one line of context per piece.
-2. Hold short pieces of writing the builder wants kept somewhere.
-3. Tell a stranger (recruiter, peer) who the builder is, where they are,
-   and what they are building right now — within five seconds of landing.
+1. **Exploratory portfolio:** Instead of a conventional vertical scroll, the portfolio is an interactive virtual desktop operating system. Visitors browse folders, double-click files, and manipulate draggable windows to view projects.
+2. **Showcase technical & creative craft:** Combines window management physics, tactile micro-interactions (magnetic buttons, sticky cursor, sound fx), and editorial typography on a clean desktop canvas.
+3. **Immediate clarity:** Top menu bar conveys identity, local time (Ho Chi Minh City), availability status, and direct contact within 3 seconds of landing.
 
 ## Register
 
-**Brand-leaning product.** The site itself is the artifact: a personal
-folio that demonstrates the craft it claims. Design carries weight equal to
-content.
+**Brand / Creative Technologist OS.** The interface itself is the primary demonstration of frontend craft, motion physics, and art direction.
 
 ## Brand personality
 
-- Specific, earned, unmistakable.
-- Editorial cadence: generous whitespace, restrained palette, small
-  details that reward attention.
-- Quietly animated — the page should feel alive without ever announcing
-  itself.
-- Independent and unhurried. No urgency language. No CTAs.
+- **Tactile & Exploratory:** Feels like exploring someone’s personal workstation or studio desktop.
+- **Crafted & Precise:** Subtle frosted glass (macOS window chrome), perfectly tuned spring physics, boundary clamping, and responsive window stacking.
+- **Unhurried & Playful:** Delightful details (traffic light controls, folder previews, ambient audio toggle, magnetic snapping) that reward curiosity without feeling gimmicky.
 
 ## Voice
 
-- Short sentences. Concrete nouns. No filler adjectives.
-- Lowercase for the wordmark, lowercase eyebrows, capitalized titles only
-  when reading the source made me capitalize them.
-- Symbols used sparingly and only where they carry meaning (☼, ☀, ©, ⚗).
+- Minimal, utilitarian OS system labels (e.g. `Works/`, `About.txt`, `Terminal.app`, `Archive.zip`).
+- Direct, documentary project descriptions inside window viewports.
+- No corporate jargon or marketing fluff.
 
 ## Anti-references
 
-- The current `app/page.tsx` already reads as restrained editorial — that
-  is the floor, not the ceiling. Do not flatten the work to look more
-  "professional."
-- Generic portfolio tropes: skill bars, "About me" selfie, testimonial
-  carousel, "Hire me" button.
-- SaaS marketing register: hero metrics, gradient CTAs, comparison
-  tables, social proof strips.
-- AI-slop aesthetic: identical card grids, glassmorphism, gradient text,
-  emoji-heavy copy.
-- The committed-dark monochrome style of the visual reference (Olivier
-  Larose) — borrow craft, not palette.
+- ❌ Traditional long-scroll marketing websites with hero CTA buttons.
+- ❌ Clunky, low-framerate draggable windows with glitchy z-index or no boundary bounds.
+- ❌ Skeuomorphism without purpose: avoid 90s retro clipart; stick to modern, crisp neo-grotesk / frosted glass macOS aesthetic.
+- ❌ Breaking mobile: Must gracefully adapt to a native mobile OS/drawer experience on phone screens.
 
 ## Strategic principles
 
-1. Craft over coverage. Fewer projects shown well beat many projects shown
-   flat.
-2. Honest over impressive. If a piece is small, say so. If a piece is
-   experimental, mark it.
-3. Detail under the cursor. Every hover, every transition, every focus
-   ring is a sentence the visitor reads without knowing they're reading.
-4. The site ages well. Avoid trends that date the work by next year.
+1. **Fluid Window Management:** Windows must drag at 60/120fps with inertial spring physics and boundary prevention.
+2. **Origin-Aware Transitions:** Opening a file/folder animates from the clicked desktop icon to its window frame.
+3. **Responsive Grace:** Desktop gets full multi-window OS; mobile gets clean drawer/modal sheets.
+4. **Detail Compounding:** Magnetic cursor, active press states, sound feedback, and live clock all work in harmony.

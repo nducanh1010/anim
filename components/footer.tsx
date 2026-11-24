@@ -1,3 +1,7 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
+
 const links: { href: string; label: string }[] = [
   { href: "/rss.xml", label: "rss" },
   { href: "https://github.com/ducanh", label: "github" },
@@ -5,7 +9,10 @@ const links: { href: string; label: string }[] = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
   const year = new Date().getFullYear();
+
+  if (pathname === '/') return null;
   return (
     <footer className="mt-space-9 border-t border-rule">
       <div className="mx-auto flex max-w-[80rem] flex-col gap-space-5 px-gutter py-space-6 sm:flex-row sm:items-end sm:justify-between">

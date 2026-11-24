@@ -17,6 +17,9 @@ const items: NavItem[] = [
 export function Navbar({ ref }: { ref?: React.Ref<HTMLDivElement> }) {
   const pathname = usePathname();
 
+  // Desktop OS view has its own TopMenuBar on home route
+  if (pathname === "/") return null;
+
   return (
     <header className="sticky top-0 z-[var(--z-nav)] border-b border-rule bg-surface-0/85 backdrop-blur-[2px]">
       <div className="mx-auto flex max-w-[80rem] items-center justify-between gap-space-4 px-gutter py-space-3">

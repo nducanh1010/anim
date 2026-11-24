@@ -1,0 +1,21 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="termBg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2D3035"/>
+      <stop offset="100%" stop-color="#151719"/>
+    </linearGradient>
+    <filter id="tShadow" x="-2" y="-1" width="68" height="68" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#termBg)" filter="url(#tShadow)"/>
+  <rect x="4" y="4" width="56" height="56" rx="14" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+  <!-- Top bar controls -->
+  <circle cx="12" cy="12" r="2" fill="#FF5F56"/>
+  <circle cx="18" cy="12" r="2" fill="#FFBD2E"/>
+  <circle cx="24" cy="12" r="2" fill="#27C93F"/>
+  <!-- Command prompt text -->
+  <path d="M14 26L22 32L14 38" stroke="#34C759" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="26" y1="38" x2="38" y2="38" stroke="#E5E5E7" stroke-width="3" stroke-linecap="round"/>
+</svg>
+

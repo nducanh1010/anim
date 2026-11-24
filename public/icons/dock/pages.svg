@@ -1,0 +1,17 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pagesBg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF9500"/>
+      <stop offset="100%" stop-color="#FF5E00"/>
+    </linearGradient>
+    <filter id="pgShadow" x="-2" y="-1" width="68" height="68" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#pagesBg)" filter="url(#pgShadow)"/>
+  <rect x="4" y="4" width="56" height="56" rx="14" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  <!-- Pen writing icon -->
+  <path d="M43 14C45 16 45 19 43 21L25 39L18 43L22 36L40 18C42 16 41 12 43 14Z" fill="#FFFFFF"/>
+  <line x1="16" y1="48" x2="48" y2="48" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
+

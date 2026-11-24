@@ -1,83 +1,92 @@
-# DESIGN.md — next_anim (NDA-aware revision, current palette kept)
+# DESIGN.md — next_anim (Desktop OS GUI Specification)
 
 ## Identity sentence
 
-A small, considered personal site for an independent builder. Editorial
-cadence (generous whitespace, restrained palette, system-serif body),
-animated just enough to feel alive without becoming a showpiece. Reads like
-a folio or journal kept by hand — not a SaaS landing page, not a portfolio
-reel.
+An interactive Desktop Operating System canvas (`100dvh`) for a creative developer, inspired by **bychudy.com** (Mateusz Chudy). Visitors navigate a tactile digital workstation with draggable windows, desktop folders, interactive top menu bar, and rich project previews.
 
 ## Reference direction
 
-**Olivier Larose** ([olivierlarose.com](https://www.olivierlarose.com)) is the
-single visual reference. Borrow the **craft**, not the palette:
+**Miłosz Chudy** ([bychudy.com](https://www.bychudy.com)) is the primary visual and experiential reference:
 
-- Massive mixed-voice display type (serif + script italic + pixel)
-- `mix-blend-mode: difference` on hero text against a localized dark band
-- One-line project list (4-col row: title / description / category / year)
-  with hover invert
-- Documentary image strip per project (3 images, no cards)
-- Snappy ease `cubic-bezier(0.3, 0.2, 0.2, 0.8)`
-- Wavy nav: per-letter spans, hover wave
-- Locomotive-style smooth scroll (project already has `lenis`)
+- **Desktop OS Metaphor:** Viewport-locked workspace with custom desktop icons (Projects, About, Writings, Trash, Lab).
+- **Interactive Window Management:** Multi-window capabilities with drag & drop, active/blur state stacking, traffic light controls (close, minimize, maximize), and smooth boundary-constrained positioning.
+- **Top Menu Bar:** System logo, real-time clock (Ho Chi Minh City GMT+7), work status indicator, audio ambient switch, contact shortcuts.
+- **Micro-tactility:** Magnetic cursor snaps to buttons, subtle window shadows, blurred translucent title bars, and origin-aware window open/close transitions.
+- **Responsive Adaptation:** Full OS experience on desktop/tablet; clean mobile drawer/sheet navigation on smartphones.
 
-Do **not** clone his committed-dark monochrome strategy. next_anim stays on
-the warm-ochre paper palette; the reference informs technique, not color.
+## System Architecture
 
-## Color
+```
+┌────────────────────────────────────────────────────────┐
+│ Top Menu Bar: [Logo] [Works] [About]  [Time] [Status]  │
+├────────────────────────────────────────────────────────┤
+│ Desktop Canvas (100dvh - Studio Wallpaper Workspace)   │
+│                                                        │
+│  [Folder]      ┌─ [Window: Works] ──────────────────┐  │
+│  Projects      │ • • •                              │  │
+│                │ ---------------------------------  │  │
+│  [File]        │ Grid of project cards & previews   │  │
+│  About.txt     │ Scrollable content area            │  │
+│                └────────────────────────────────────┘  │
+│  [Terminal]                                            │
+│  Console.app                                           │
+│                                                        │
+└────────────────────────────────────────────────────────┘
+```
 
-- **Strategy:** Restrained. Teal accent ≤ 10% of surface. No gradients.
-- **Tokens (already in `app/globals.css`):**
-  - Surfaces: `--surface-0` paper-0, `--surface-1` paper-1, `--surface-2` paper-2
-  - Ink: `--ink-strong`, `--ink`, `--ink-mute`, `--ink-faint`
-  - Accent: `--accent` teal-5, `--accent-soft` teal-3, `--accent-ink`
-  - Signature: `--signature` saffron (for the handwritten role only)
-- **New commitment for this revision:** introduce a `--surface-invert`
-  near-black surface (`oklch(14% 0.010 80)`) used **only** behind hero text
-  with `mix-blend-mode: difference` and as the project-row hover target.
-  The site stays paper-0 by default; this token exists for two specific
-  moments of contrast.
+## Color & Surface Tokens
+
+Uses OKLCH with frosted glass backdrop-filter:
+
+- **Desktop Canvas (Wallpaper):** Minimalist studio neutral `oklch(14% 0.015 260)` with a subtle radial light vignette.
+- **Window Chrome:**
+  - Active Window: Background `oklch(20% 0.015 260 / 80%)`, border `1px solid oklch(100% 0 0 / 12%)`, backdrop blur `24px`.
+  - Inactive Window: Background `oklch(17% 0.010 260 / 60%)`, opacity `0.85`, border `1px solid oklch(100% 0 0 / 6%)`.
+  - Window Shadow: Layered elevation `0 24px 64px -12px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.08)`.
+- **Traffic Light Controls:**
+  - Close: `oklch(62% 0.22 25)` (Refined coral red)
+  - Minimize: `oklch(78% 0.18 85)` (Amber gold)
+  - Maximize: `oklch(74% 0.19 145)` (Emerald mint)
+  - Desaturated slightly in inactive state for visual hierarchy.
+- **Text & Ink:**
+  - System display: `oklch(96% 0.005 260)` (`--ink-strong`)
+  - Body: `oklch(80% 0.010 260)` (`--ink`)
+  - Muted/Metadata: `oklch(55% 0.010 260)` (`--ink-mute`)
 
 ## Typography
 
-System stacks already in `app/globals.css`. This revision:
+- **System UI / Menu Bar / Window Headers:** Clean geometric sans (Geist Sans) or Neo-Grotesk, font size 12px–13px, tracking +0.02em, medium weight.
+- **Monospace Elements (Clock, Terminal, Tech specs):** Geist Mono, font size 11px–12px.
+- **Project Detail Headings:** Bold editorial display font (`--font-display`), clamp(1.75rem, 3vw, 3rem).
 
-- **Display role:** sans display for bulk, script italic for flourish
-  words, mono uppercase for tag-style eyebrows (three voices).
-- **Hero scale:** push ceiling. Current `--text-display` clamps to `5.5rem`
-  — raise to `clamp(3rem, 1.5rem + 9vw, 9rem)` so mixed-voice hero reads
-  as the dominant element on the page.
-- **Italic flourish:** saffron `--signature` color, vertical-align -0.05em.
-- **Tracking:** tight on display (-0.02em), caps on eyebrows (+0.08em).
+## Motion & Interaction (Emil Kowalski Framework)
 
-## Layout
+1. **Window Dragging:**
+   - Powered by Framer Motion `drag` with `dragMomentum={false}` and boundary limits so windows cannot be dragged off-screen.
+   - Cursor changes to `grabbing` on drag, `grab` on title bar hover.
+2. **Window Stacking (z-index):**
+   - Click anywhere on a window to bring it to top (`zIndex = Math.max(...allZ) + 1`).
+   - Active window header highlights; inactive windows dim slightly.
+3. **Origin-Aware Open/Close:**
+   - Double-clicking a desktop icon calculates its viewport `(x, y)` and scales the window outward (`scale: 0.2 -> 1, opacity: 0 -> 1`) with custom spring `damping: 24, stiffness: 300`.
+   - Closing animates back toward the icon before unmounting.
+4. **Tactile Micro-interactions:**
+   - Desktop icon hover: 2px lift, subtle halo glow.
+   - Traffic lights: hover reveals tiny symbols (`×`, `−`, `+`), `:active scale(0.92)`.
+   - Sticky Cursor & Magnetic pull on clickable interactive elements.
 
-- **Container:** keep 80rem max. Body prose at 65ch.
-- **Hero:** full-bleed top band. Massive heading at left edge, body
-  paragraph under it at `--text-lead`. No CTA button. Mix-blend-mode
-  creates the inverted feel against any future light section.
-- **Project list:** single `<a>` per project, 4-col grid on desktop
-  (title 35% / description 45% / client 15% / year 5%). Hover inverts to
-  light surface with dark text (the "quiet reveal" — color flip, not
-  scale).
-- **Image strip:** flex row of 3 images at `flex: 1 1 32%`, no rounded
-  corners, no shadow. Aspect-ratio 4/3, mobile stacks.
-- **Spacing rhythm:** `--space-9` top of hero, `--space-7` between
-  sections, `--space-4` between project rows.
+## Mobile Adaptation (<768px)
 
-## Motion
+- Desktop dragging is disabled on mobile viewports.
+- Icons display in a clean grid / dock.
+- Clicking an icon opens a **Native-feeling Drawer / Bottom Sheet** or **Full-screen Modal** with a top drag-handle to swipe down and dismiss.
+## Content structure in Windows
 
-- **Signature ease:** `--ease-olivier: cubic-bezier(0.3, 0.2, 0.2, 0.8)`.
-  Snappy start, smooth settle. Use on project-row hover, image fade-ins,
-  the wavy nav, any element that needs the "alive but not bouncy" feel.
-- **Durations:** keep existing scale. Hero entrance at `--dur-entrance`
-  (640ms) with `--ease-olivier`.
-- **Scroll trigger:** `lenis` smooth scroll already in place. Hero text
-  parallax at `scrub: 1` via gsap-scrolltrigger. Image strip per project
-  fades in on enter with `stagger: 0.06`.
-- **Wavy nav (CSS-only):** per-letter spans with `--i` custom property;
-  hover stagger delay `calc(var(--i) * 22ms)`.
+Each window renders a distinct type of content:
+1. **Works Window (`Works/`):** List or grid of projects with cover preview, category badges, year, and case detail modals.
+2. **About Window (`About.txt`):** Short documentary biography, philosophy, skills/tech stack, links to GitHub, X, LinkedIn.
+3. **Journal Window (`Journal/`):** MDX posts / thoughts on engineering, craft, and art direction.
+4. **Terminal / Lab Window (`Terminal.app`):** Interactive mini CLI / playground or live experiment selector.
 
 ## Content strategy (NDA-aware)
 
