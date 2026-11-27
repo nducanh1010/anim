@@ -7,6 +7,7 @@ export type WindowId =
   | 'spatial-studio'
   | 'fluid-canvas'
   | 'fintech-system'
+  | 'graveyard'
   | (string & {});
 
 export interface WindowConfig {
@@ -121,6 +122,16 @@ export const INITIAL_WINDOWS: Record<WindowId, WindowConfig> = {
     defaultPosition: { x: 260, y: 90 },
     defaultSize: { width: 540, height: 500 },
     minSize: { width: 380, height: 340 },
+    initiallyOpen: false,
+  },
+  graveyard: {
+    id: 'graveyard',
+    title: 'Bin of ideas — The Graveyard',
+    label: 'Bin of ideas',
+    iconName: 'trash',
+    defaultPosition: { x: 220, y: 60 },
+    defaultSize: { width: 800, height: 560 },
+    minSize: { width: 440, height: 380 },
     initiallyOpen: false,
   },
 };

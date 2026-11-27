@@ -59,7 +59,7 @@ function DockItem({ id, label, iconPath }: DockItemProps) {
 }
 
 export function Dock() {
-  const { openWindow } = useWindowManager();
+  const { openWindow, toggleWindow, windows } = useWindowManager();
   const items = Object.values(INITIAL_WINDOWS).filter((item) =>
     ['works', 'about', 'journal', 'terminal'].includes(item.id)
   );
@@ -104,26 +104,36 @@ export function Dock() {
 
       <div className="w-px h-8 bg-rule/50 mx-0.5 self-center" />
 
-      {/* Trash with real Apple Bin.avif */}
-      <div className="relative flex flex-col items-center group">
-        <div className="absolute -top-11 px-2.5 py-1 rounded-lg text-xs font-sans font-medium tracking-tight bg-surface-0/90 dark:bg-palette-ink-9/90 text-ink-strong border border-rule/50 dark:border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.2)] pointer-events-none opacity-0 translate-y-1.5 scale-95 group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 transition-all duration-150 ease-out whitespace-nowrap z-50">
-          Trash
-          <div className="absolute left-1/2 -bottom-1 -translate-x-1/2 w-2 h-2 rotate-45 bg-surface-0/90 dark:bg-palette-ink-9/90 border-r border-b border-rule/50 dark:border-white/10" />
-        </div>
-        <button
-          className="w-12 h-12 p-0.5 rounded-2xl flex items-center justify-center transition-transform duration-100 ease-out active:scale-90 opacity-90 hover:opacity-100 outline-none"
-          aria-label="Trash"
-        >
-          <Image
-            src="/images/Bin.avif"
-            alt="Trash"
-            width={48}
-            height={48}
-            className="w-full h-full object-contain drop-shadow-md pointer-events-none"
-          />
-        </button>
-        <span className="w-1 h-1 rounded-full opacity-0 mt-0.5" />
-      </div>
+      {/* Bin of ideas (The Graveyard) with real Apple Bin.avif */}
+      {(() => {
+        const isGraveyardOpen = windows.graveyard?.isOpen && !windows.graveyard?.isMinimized;
+        return (
+          <div className="relative flex flex-col items-center group">
+            <div className="absolute -top-11 px-2.5 py-1 rounded-lg text-xs font-sans font-medium tracking-tight bg-surface-0/90 dark:bg-palette-ink-9/90 text-ink-strong border border-rule/50 dark:border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.2)] pointer-events-none opacity-0 translate-y-1.5 scale-95 group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 transition-all duration-150 ease-out whitespace-nowrap z-50">
+              Bin of ideas
+              <div className="absolute left-1/2 -bottom-1 -translate-x-1/2 w-2 h-2 rotate-45 bg-surface-0/90 dark:bg-palette-ink-9/90 border-r border-b border-rule/50 dark:border-white/10" />
+            </div>
+            <button
+              onClick={() => toggleWindow('graveyard')}
+              className="w-12 h-12 p-0.5 rounded-2xl flex items-center justify-center transition-transform duration-100 ease-out active:scale-90 opacity-90 hover:opacity-100 outline-none"
+              aria-label="Bin of ideas"
+            >
+              <Image
+                src="/images/Bin.avif"
+                alt="Bin of ideas"
+                width={48}
+                height={48}
+                className="w-full h-full object-contain drop-shadow-md pointer-events-none"
+              />
+            </button>
+            <span
+              className={`w-1 h-1 rounded-full transition-opacity duration-150 mt-0.5 ${
+                isGraveyardOpen ? 'bg-ink-strong dark:bg-white opacity-90' : 'opacity-0'
+              }`}
+            />
+          </div>
+        );
+      })()}
     </footer>
   );
 }

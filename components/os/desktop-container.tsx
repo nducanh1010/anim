@@ -9,6 +9,7 @@ import { AboutView } from './views/about-view';
 import { JournalView } from './views/journal-view';
 import { TerminalView } from './views/terminal-view';
 import { ProjectPreviewView } from './views/project-preview-view';
+import { GraveyardView } from './views/graveyard-view';
 import { Dock } from './dock';
 import { Post } from '@/lib/posts';
 
@@ -41,6 +42,10 @@ export function DesktopContainer({ posts }: DesktopContainerProps) {
 
           <WindowFrame id="terminal" dragConstraintsRef={containerRef}>
             <TerminalView />
+          </WindowFrame>
+
+          <WindowFrame id="graveyard" dragConstraintsRef={containerRef}>
+            <GraveyardView />
           </WindowFrame>
 
           {/* Individual Project Detail Windows — can be open simultaneously */}

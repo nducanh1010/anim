@@ -1,0 +1,246 @@
+#!/usr/bin/env node
+/**
+ * Sync the agents-standard `.agents/` folder into Claude Code's native `.claude/` folder.
+ *
+ * Source of truth stays `.agents/` (shared with Codex / Cursor / Gemini / opencode ...).
+ * This script materialises a Claude Code-native copy so Claude can actually load it:
+ *
+ *   .agents/skills/<name>/**   ->  .claude/skills/<name>/**
+ *   .agents/rules/*.md         ->  .claude/rules/*.md
+ *   .agents/workflows/*.md     ->  (reported only — Claude Code workflows must be .js)
+ *
+ * Skills copied into `.claude/skills/` are also auto-loaded as plugins by Claude Code
+ * (the "skills-dir" plugin source), so no extra config is needed.
+ *
+ * Templates from upstream repos (e.g. pbakaus/impeccable) ship unresolved `{{...}}`
+ * placeholders. They are rendered here for the Claude Code harness:
+ *
+ *   {{command_prefix}}      -> /                 (slash-command prefix)
+ *   {{command_hint}}        -> [craft|teach|...] (sub-command argument hint)
+ *   {{scripts_path}}        -> .claude/skills/<skill>/scripts
+ *   {{model}}               -> Claude
+ *   {{available_commands}}  -> /impeccable craft, /impeccable teach, ...
+ *   {{ask_instruction}}     -> ask the user
+ *   {{config_file}}         -> PRODUCT.md
+ *
+ * Usage:
+ *   node scripts/sync-agents-skills.mjs            # sync
+ *   node scripts/sync-agents-skills.mjs --dry-run  # show the plan, write nothing
+ */
+
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+
+const AGENTS_DIR = path.join(ROOT, '.agents');
+const CLAUDE_DIR = path.join(ROOT, '.claude');
+const SRC_SKILLS = path.join(AGENTS_DIR, 'skills');
+const DST_SKILLS = path.join(CLAUDE_DIR, 'skills');
+const SRC_RULES = path.join(AGENTS_DIR, 'rules');
+const DST_RULES = path.join(CLAUDE_DIR, 'rules');
+const SRC_WORKFLOWS = path.join(AGENTS_DIR, 'workflows');
+
+const MARKER = '.synced-from-agents';
+const DRY_RUN = process.argv.includes('--dry-run');
+
+/** Files we render placeholders in. Everything else is copied byte-for-byte. */
+const TEXT_EXTENSIONS = new Set(['.md', '.mdx', '.mjs', '.js', '.cjs', '.json', '.txt', '.yaml', '.yml']);
+
+/** Files that never need to be copied. */
+const SKIP_FILES = new Set(['.DS_Store', 'Thumbs.db']);
+
+/* ------------------------------------------------------------------ helpers */
+
+function walk(dir, base = dir) {
+  if (!fs.existsSync(dir)) return [];
+  const out = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (SKIP_FILES.has(entry.name)) continue;
+    const abs = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...walk(abs, base));
+    else out.push(path.relative(base, abs));
+  }
+  return out;
+}
+
+function ensureDir(dir) {
+  if (!DRY_RUN) fs.mkdirSync(dir, { recursive: true });
+}
+
+function readJson(file) {
+  try {
+    return JSON.parse(fs.readFileSync(file, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+/* ------------------------------------------------------------------ rendering */
+
+function loadCommandNames() {
+  const meta = readJson(path.join(SRC_SKILLS, 'impeccable', 'scripts', 'command-metadata.json'));
+  const names = meta ? Object.keys(meta) : [];
+  return names.length ? names : ['craft', 'teach', 'shape', 'critique', 'audit'];
+}
+
+/**
+ * Build the placeholder table for a given skill.
+ * `scriptsPath` is relative to the project root so the rendered command works
+ * when Claude runs it from the repo root.
+ */
+function buildPlaceholders(skillName) {
+  const commands = loadCommandNames();
+  const scriptsPath = path
+    .relative(ROOT, path.join(DST_SKILLS, skillName, 'scripts'))
+    .split(path.sep)
+    .join('/');
+
+  return {
+    command_prefix: '/',
+    command_hint: `[${commands.join('|')}]`,
+    scripts_path: scriptsPath,
+    model: 'Claude',
+    available_commands: commands.map((c) => `/impeccable ${c}`).join(', '),
+    ask_instruction: 'ask the user',
+    config_file: 'PRODUCT.md',
+  };
+}
+
+function render(text, placeholders) {
+  let out = text;
+  for (const [key, value] of Object.entries(placeholders)) {
+    out = out.split(`{{${key}}}`).join(value);
+  }
+  return out;
+}
+
+function unresolvedPlaceholders(text) {
+  return [...text.matchAll(/\{\{([a-zA-Z_][a-zA-Z0-9_]*)\}\}/g)].map((m) => m[1]);
+}
+
+/* ------------------------------------------------------------------ skills */
+
+function syncSkill(name) {
+  const srcDir = path.join(SRC_SKILLS, name);
+  const dstDir = path.join(DST_SKILLS, name);
+  const placeholders = buildPlaceholders(name);
+
+  // Only blow away a destination we generated ourselves. A hand-written skill in
+  // .claude/skills/ must never be clobbered by a sync.
+  if (fs.existsSync(dstDir) && !fs.existsSync(path.join(dstDir, MARKER))) {
+    return { skill: name, status: 'skipped', reason: 'destination exists and was not generated by this script' };
+  }
+  if (fs.existsSync(dstDir)) {
+    if (!DRY_RUN) fs.rmSync(dstDir, { recursive: true, force: true });
+  }
+
+  const files = walk(srcDir);
+  const unresolved = new Set();
+  let rendered = 0;
+
+  for (const rel of files) {
+    const src = path.join(srcDir, rel);
+    const dst = path.join(dstDir, rel);
+    ensureDir(path.dirname(dst));
+
+    if (TEXT_EXTENSIONS.has(path.extname(rel).toLowerCase())) {
+      const original = fs.readFileSync(src, 'utf8');
+      const next = render(original, placeholders);
+      for (const token of unresolvedPlaceholders(next)) unresolved.add(token);
+      if (next !== original) rendered++;
+      if (!DRY_RUN) fs.writeFileSync(dst, next, 'utf8');
+    } else {
+      if (!DRY_RUN) fs.copyFileSync(src, dst);
+    }
+  }
+
+  if (!DRY_RUN) {
+    fs.writeFileSync(
+      path.join(dstDir, MARKER),
+      `Generated from .agents/skills/${name} by scripts/sync-agents-skills.mjs — do not edit here.\n`,
+      'utf8',
+    );
+  }
+
+  return {
+    skill: name,
+    status: 'synced',
+    files: files.length,
+    rendered,
+    unresolved: [...unresolved],
+  };
+}
+
+/* ------------------------------------------------------------------ rules */
+
+function syncRule(fileName) {
+  const src = path.join(SRC_RULES, fileName);
+  const dst = path.join(DST_RULES, fileName);
+
+  let text = fs.readFileSync(src, 'utf8');
+
+  // `.agents/rules` uses the Codex-style frontmatter; Claude Code rules use
+  // description / paths / globs / alwaysApply.
+  text = text.replace(/^trigger:\s*always_on\s*$/m, 'alwaysApply: true');
+  text = text.replace(/^trigger:\s*agent_requested\s*$/m, 'alwaysApply: false');
+
+  ensureDir(path.dirname(dst));
+  if (!DRY_RUN) fs.writeFileSync(dst, text, 'utf8');
+
+  return { rule: fileName, status: 'synced' };
+}
+
+/* ------------------------------------------------------------------ main */
+
+function main() {
+  if (!fs.existsSync(AGENTS_DIR)) {
+    console.error(`No .agents/ folder at ${AGENTS_DIR} — nothing to sync.`);
+    process.exitCode = 1;
+    return;
+  }
+
+  console.log(`Syncing .agents/ -> .claude/  (${DRY_RUN ? 'dry run' : 'writing files'})\n`);
+
+  const skillNames = fs.existsSync(SRC_SKILLS)
+    ? fs
+        .readdirSync(SRC_SKILLS, { withFileTypes: true })
+        .filter((e) => e.isDirectory())
+        .map((e) => e.name)
+    : [];
+
+  const results = skillNames.map(syncSkill);
+
+  for (const r of results) {
+    if (r.status === 'skipped') {
+      console.log(`  skip   ${r.skill} — ${r.reason}`);
+      continue;
+    }
+    const flag = r.unresolved.length ? `  ⚠ unresolved: ${r.unresolved.join(', ')}` : '';
+    console.log(`  skill  ${r.skill}  (${r.files} files, ${r.rendered} rendered)${flag}`);
+  }
+
+  const ruleFiles = fs.existsSync(SRC_RULES)
+    ? fs.readdirSync(SRC_RULES).filter((f) => f.endsWith('.md'))
+    : [];
+  for (const f of ruleFiles) {
+    syncRule(f);
+    console.log(`  rule   ${f}`);
+  }
+
+  if (fs.existsSync(SRC_WORKFLOWS)) {
+    const wf = fs.readdirSync(SRC_WORKFLOWS).filter((f) => f.endsWith('.md'));
+    if (wf.length) {
+      console.log(
+        `\n  note   Claude Code workflows must be .claude/workflows/<name>.js — not copied:`,
+      );
+      for (const f of wf) console.log(`           .agents/workflows/${f}`);
+    }
+  }
+
+  console.log(`\nDone. Restart Claude Code (or start a new session) to pick up the skills.`);
+  console.log(`Invoke them with /<skill-name>, e.g. /impeccable, /gsap-core.`);
+}
+
+main();
